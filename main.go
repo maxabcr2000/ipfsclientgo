@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/ipfs/go-ipfs-api"
-	// files "github.com/ipfs/go-ipfs-cmdkit/files"
 )
 
 const (
