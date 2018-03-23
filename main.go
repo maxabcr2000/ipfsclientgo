@@ -11,10 +11,6 @@ const (
 	url = "localhost:5001"
 )
 
-var (
-	MAGIC_BYTES = fmt.Sprintf("%c%c", 8, 1)
-)
-
 func main() {
 	sh := shell.NewShell(url)
 	hash1, err := sh.AddNoPin(bytes.NewBufferString("Hello IPFS Shell tests"))
@@ -35,12 +31,7 @@ func main() {
 	}
 	fmt.Println("hash3:", hash3)
 
-	rootObj := &shell.IpfsObject{
-		Links: []shell.ObjectLink{},
-		Data:  MAGIC_BYTES,
-	}
-
-	root, err := sh.ObjectPut(rootObj)
+	root, err := sh.NewObject("unixfs-dir")
 	if err != nil {
 		panic(err)
 	}
@@ -64,12 +55,7 @@ func main() {
 	}
 	fmt.Println("root3:", root3)
 
-	dir, _ := sh.ObjectGet("QmeYye6wzMCAG67vQtYn1pAF3p89pWnfBx2GcLMeJ6XNBP")
-
-	dirList, _ := sh.List("/ipfs/QmeYye6wzMCAG67vQtYn1pAF3p89pWnfBx2GcLMeJ6XNBP")
-	fmt.Println("dirList:", dirList)
-
-	fmt.Println("dir.Data:", dir.Data)
+	rootObj, _ := sh.ObjectGet(root3)
 	fmt.Println("rootObj.Data:", rootObj.Data)
 
 	rootList, _ := sh.List(fmt.Sprintf("/ipfs/%s", root3))
